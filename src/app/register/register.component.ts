@@ -20,5 +20,4 @@ export class RegisterComponent implements OnInit {
 
     this.auth.createUser(email, pass, name);
   }
-
 }
