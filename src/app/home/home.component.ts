@@ -15,7 +15,9 @@ export class HomeComponent implements OnInit {
   docRef: any = null;
   eventRef: any = null;
   points: any = null;
+  eventName: any = null;
   eventPoints: any = null;
+  lastCheckedIn: any = null;
 
   constructor(private aAuth: AuthService, private db: AngularFirestore) { }
 
@@ -42,18 +44,32 @@ export class HomeComponent implements OnInit {
     this.docRef.get().toPromise().then(doc => {
       if (doc.exists) {
         this.points = Number(doc.data().points);
+        this.lastCheckedIn = new Date(doc.data().lastCheckedIn);
+        const now = new Date();
+        var ONE_HOUR = 60 * 60 * 1000;
 
-        this.eventRef.get().toPromise().then(doc => {
-          if (doc.exists) {
-            this.eventPoints = Number(doc.data().points);
-            this.points += this.eventPoints;
-            
-            totalInfo["points"] = this.points;
-            this.docRef.update(totalInfo);
-          } else {
-            alert("Error fetching current event data.");
-          }
-        });
+        console.log(now);
+        console.log(this.lastCheckedIn);
+
+        if ((now.getTime() - this.lastCheckedIn.getTime()) > ONE_HOUR) {
+          this.eventRef.get().toPromise().then(doc => {
+            if (doc.exists) {
+              this.eventName = doc.data().name;
+              this.eventPoints = Number(doc.data().points);
+              this.points += this.eventPoints;
+              this.lastCheckedIn = new Date();
+  
+              totalInfo["points"] = this.points;
+              totalInfo["lastCheckedIn"] = this.lastCheckedIn.getTime();
+              this.docRef.update(totalInfo);
+              alert("Successfully checked-in to " + this.eventName);
+            } else {
+              alert("Error fetching current event data.");
+            }
+          });
+        } else {
+          alert("Error: You have checked in to an event in the past hour!")
+        }
       } else {
         alert("Error fetching user data.");
       }

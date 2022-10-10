@@ -48,6 +48,7 @@ export class AuthService {
         var totalInfo = {};
         totalInfo["name"] = name;
         totalInfo["points"] = 0;
+        totalInfo["lastCheckedIn"] = new Date("1995-12-17T03:24:00").getTime();
 
         this.db.collection("users").doc(email).set(totalInfo);
     }
