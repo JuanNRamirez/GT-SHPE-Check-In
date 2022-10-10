@@ -1,0 +1,39 @@
+.footer {
+    background-color: black;
+    color: white;
+    font-size: 2rem;
+    padding: 20px;
+    line-height: 2rem;
+    
+}
+
+.footer .ui.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media only screen and (max-width: 500px) {
+    .footer .ui.container {
+        flex-direction: column;
+    }
+
+    .footer a {
+        font-size: 2.5 rem;
+    }
+}
+
+.footer a {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: white;
+}
+
+.footer a:hover {
+    color: #ffe189;
+}
+
+.made-with-love {
+    font-size: 1rem;
+}

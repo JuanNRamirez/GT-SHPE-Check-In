@@ -1,0 +1,18 @@
+<div class="ui container">
+    <h1>Welcome to the GT-SHPE Event Check-In!</h1>
+    <h3>Please login to your account or register for one if you haven't already.</h3>
+    <div>
+        <form class="ui form">
+            <div class="field">
+                <label>Email</label>
+                <input id="emailT" type="text" name="email" placeholder="Email">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input id="passT" type="password" name="password" placeholder="Password">
+            </div>
+            <button class="ui button" type="button" (click)="handleLogin()">Login</button>
+            <button class="ui button" type="button" routerLink="/register" routerLinkActive="active">Register</button>
+        </form>
+    </div>
+</div>

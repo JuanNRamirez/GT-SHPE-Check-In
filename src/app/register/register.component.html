@@ -1,0 +1,20 @@
+<div class="ui container">
+    <h1>Register a new account</h1>
+    <div>
+        <form class="ui form">
+            <div class="field">
+                <label>Email</label>
+                <input id="emailT" type="text" name="email" placeholder="Email">
+            </div>
+            <div class="field">
+                <label>Your Desired Password</label>
+                <input id="passT" type="password" name="password" placeholder="Password">
+            </div>
+            <div class="field">
+                <label>Name</label>
+                <input id="nameT" type="text" name="name" placeholder="Name">
+            </div>
+            <button class="ui button" type="button" routerLink="/register" (click)="handleRegister()">Register</button>
+        </form>
+    </div>
+</div>
