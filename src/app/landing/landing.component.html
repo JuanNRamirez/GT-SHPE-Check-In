@@ -11,8 +11,10 @@
                 <label>Password</label>
                 <input id="passT" type="password" name="password" placeholder="Password">
             </div>
-            <button class="ui button" type="button" (click)="handleLogin()">Login</button>
-            <button class="ui button" type="button" routerLink="/register" routerLinkActive="active">Register</button>
+            <div class="buttons">
+                <button class="ui button" type="button" (click)="handleLogin()">Login</button>
+                <button class="ui button" type="button" routerLink="/register" routerLinkActive="active">Register</button>
+            </div>
         </form>
     </div>
 </div>
