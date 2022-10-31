@@ -27,30 +27,27 @@ export class AuthService {
 
     createUser(email: string, password: string, name: string) {
         this.aAuth.createUserWithEmailAndPassword(email, password).then((result) => {
-            this.router.navigate(['']);
+            var totalInfo = {};
+            totalInfo["name"] = name;
+            totalInfo["points"] = 0;
+            totalInfo["lastCheckedIn"] = new Date("1995-12-17T03:24:00").getTime();
+
+            this.db.collection("users").doc(email).set(totalInfo).then((result) => {
+                this.router.navigate(['']);
+            });
         }).catch(error => {
-            console.log(error)
             switch (error.code) {
                 case 'auth/email-already-in-use':
-                    alert("Error! You already set a new password.");
-                    this.router.navigate(['checkstatus']);
+                    alert("Error! Email has already been registered.");
                     break;
                 case 'auth/weak-password':
                     alert("Error! Please verify your password is at least 6 characters long.");
                     break;
                 case 'auth/argument-error':
-                    alert("Error! Please try inputting your email address again.")
-                    this.router.navigate(['checkstatus']);     
+                    alert("Error! Please try inputting your email address again.");   
                     break;
             }
         });
-
-        var totalInfo = {};
-        totalInfo["name"] = name;
-        totalInfo["points"] = 0;
-        totalInfo["lastCheckedIn"] = new Date("1995-12-17T03:24:00").getTime();
-
-        this.db.collection("users").doc(email).set(totalInfo);
     }
 
     login(email: string, password: string) {
