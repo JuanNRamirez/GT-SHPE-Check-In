@@ -11,12 +11,10 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class HomeComponent implements OnInit {
 
-  public disabled = true;
   email: any = null;
   docRef: any = null;
   eventRef: any = null;
   points: any = null;
-  name: any = null;
   eventName: any = null;
   eventPoints: any = null;
   lastCheckedIn: any = null;
@@ -70,7 +68,7 @@ export class HomeComponent implements OnInit {
             }
           });
         } else {
-          alert("Error: You have checked in this event!")
+          alert("Error: You have checked in to an event in the past hour!")
         }
       } else {
         alert("Error fetching user data.");
@@ -79,25 +77,4 @@ export class HomeComponent implements OnInit {
       alert("There was an error contacting our servers. Please try again!");
     });
   }
-
-  getPoints(){
-    this.docRef.get().toPromise().then(doc => {
-      if (doc.exists) {
-        this.points = Number(doc.data().points);
-        this.name = String(doc.data().name);
-        alert("Name: " + this.name + "\nPoints: " + this.points);
-
-      } else {
-        alert("Error fetching user data.");
-      }
-    }).catch(error => {
-      alert("There was an error contacting our servers. Please try again!");
-    });
-  }
-
-  goToUrl(): void {
-    window.open('https://forms.gle/YyjMnCU4qjpinMd86');
-  }
-
 }
-
