@@ -29,11 +29,11 @@ export class HomeComponent implements OnInit {
     if (this.aAuth.getCurrentUser() == null) {
       if (localStorage.getItem('logged-in')) {
         this.email = localStorage.getItem('user-email');
-      } 
+      }
     } else {
       this.email = this.aAuth.getCurrentUser().email;
     }
-    
+
     this.docRef = this.db.collection('users').doc(this.email);
     this.eventRef = this.db.collection('currentEvent').doc("1");
   }
@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
               this.eventPoints = Number(doc.data().points);
               this.points += this.eventPoints;
               this.lastCheckedIn = new Date();
-  
+
               totalInfo["points"] = this.points;
               totalInfo["lastCheckedIn"] = this.lastCheckedIn.getTime();
               this.docRef.update(totalInfo);
@@ -70,6 +70,18 @@ export class HomeComponent implements OnInit {
         } else {
           alert("Error: You have checked in to an event in the past hour!")
         }
+      } else {
+        alert("Error fetching user data.");
+      }
+    }).catch(error => {
+      alert("There was an error contacting our servers. Please try again!");
+    });
+  }
+
+  viewPoints() {
+    this.docRef.get().toPromise().then(doc => {
+      if (doc.exists) {
+        this.points = Number(doc.data().points);
       } else {
         alert("Error fetching user data.");
       }
