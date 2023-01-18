@@ -43,7 +43,7 @@ export class AuthService {
                         alert("Error! Please verify your password is at least 6 characters long.");
                         break;
                     case 'auth/argument-error':
-                        alert("Error! Please try inputting your email address again.");   
+                        alert("Error! Please try inputting your email address again.");
                         break;
                 }
             });
@@ -73,7 +73,7 @@ export class AuthService {
     }
 
     isLogged() {
-        if (this.currentUser == null && !localStorage.getItem('logged-in')) { 
+        if (this.currentUser == null && !localStorage.getItem('logged-in')) {
             return false;
         } else {
             return true;
@@ -82,5 +82,25 @@ export class AuthService {
 
     getCurrentUser() {
         return this.currentUser;
+    }
+
+    resetPassword(email: string) {
+
+        this.aAuth.sendPasswordResetEmail(email).then((res) => {
+
+            alert("Please check your email for a link to reset your password, follow the steps and then try again. Remember to check the Spam folder and try to list gtshpe.it@gmail.com as a safe sender.");
+        }).catch(error => {
+            switch(error.code) {
+                case 'auth/invalid-email':
+                    alert("Error! Email is not valid.");
+                    break;
+                case 'auth/user-not-found':
+                    alert("Error! No user corresponds to the given email address.");
+                    break;
+                default:
+                    alert("Error! Please reach out for support through the feedback form.\n Error Code: " + error.code);
+                    break;
+            }
+        });
     }
 }

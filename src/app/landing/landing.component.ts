@@ -20,4 +20,9 @@ export class LandingComponent implements OnInit {
     this.auth.login(email, pass);
   }
 
+  handleResetPassword() {
+
+    var email = (<HTMLInputElement>document.getElementById('emailT')).value;
+    this.auth.resetPassword(email);
+  }
 }
