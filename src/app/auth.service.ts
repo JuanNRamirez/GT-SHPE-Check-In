@@ -48,6 +48,12 @@ export class AuthService {
                 case 'auth/argument-error':
                     alert("Error! Please try inputting your email address again.");
                     break;
+                case 'auth/invalid-email':
+                    alert("Error! Email is not valid.");
+                    break;
+                default:
+                    alert("Error! Please contact the GT-SHPE IT Team. \n Error Code: " + error.code);
+                    break;
             }
         });
     }
@@ -100,7 +106,7 @@ export class AuthService {
                     alert("Error! No user corresponds to the given email address.");
                     break;
                 default:
-                    alert("Error! Please reach out for support through the feedback form.\n Error Code: " + error.code);
+                    alert("Error! Please contact the GT-SHPE IT Team.\n Error Code: " + error.code);
                     break;
             }
         });
