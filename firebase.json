@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/GT-SHPE-Check-In",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
