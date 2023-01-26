@@ -14,7 +14,11 @@ export class RegisterComponent implements OnInit {
   }
 
   handleRegister() {
+
+    // Convert to lowercase, so it matches with Firebase auth email.
     var email = (<HTMLInputElement>document.getElementById('emailT')).value;
+    email = email ? email.toLowerCase() : email;
+
     var pass = (<HTMLInputElement>document.getElementById('passT')).value;
     var name = (<HTMLInputElement>document.getElementById('nameT')).value;
 
