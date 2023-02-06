@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from 'src/app/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import harvesine from 'haversine-distance';
 
 @Component({
   selector: 'app-home',
@@ -57,12 +58,39 @@ export class HomeComponent implements OnInit {
               this.eventName = doc.data().name;
               this.eventPoints = Number(doc.data().points);
               this.points += this.eventPoints;
-              this.lastCheckedIn = new Date();
 
-              totalInfo["points"] = this.points;
-              totalInfo["lastCheckedIn"] = this.lastCheckedIn.getTime();
-              this.docRef.update(totalInfo);
-              alert("Successfully checked-in to " + this.eventName);
+              // Event Geolocation
+              const event_position = doc.data().position;
+              const event_coords = {
+                latitude: event_position.geopoint.latitude,
+                longitude: event_position.geopoint.longitude,
+              };
+              const event_radius = event_position.radius;
+
+              // Retrieve User Geolocation
+              const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0,
+              }
+              navigator.geolocation.getCurrentPosition((pos) => {
+                // SUCCESS
+                const user_location = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+                const distance_in_meters = Math.floor(harvesine(event_coords, user_location));
+                if (distance_in_meters <= event_radius) {
+
+                  this.lastCheckedIn = new Date();
+                  totalInfo["points"] = this.points;
+                  totalInfo["lastCheckedIn"] = this.lastCheckedIn.getTime();
+                  this.docRef.update(totalInfo);
+                alert(`Successfully checked-in to ${this.eventName}, ${distance_in_meters} meters away.`);
+                } else {
+                  alert(`Could not check-in to ${this.eventName}, you are ${distance_in_meters} meters away from the location. \nConnect to wi-fi for more precision and try again!`);
+                }
+              }, (err) => {
+                // FAILURE
+                alert(`Could not retrieve user geolocation. \n ERROR(${err.code}): ${err.message}`);
+              }, options);
             } else {
               alert("Error fetching current event data.");
             }
