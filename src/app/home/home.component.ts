@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   eventName: any = null;
   eventPoints: any = null;
   lastCheckedIn: any = null;
+  checkInProcessing : boolean = false;
 
   constructor(private aAuth: AuthService, private db: AngularFirestore) { }
 
@@ -40,6 +41,9 @@ export class HomeComponent implements OnInit {
   }
 
   checkIn() {
+    // CSS Loading animation
+    this.checkInProcessing = true;
+
     var totalInfo = {};
 
     this.docRef.get().toPromise().then(doc => {
@@ -103,7 +107,11 @@ export class HomeComponent implements OnInit {
       }
     }).catch(error => {
       alert("There was an error contacting our servers. Please try again!");
-    });
+    }).finally(() => {
+      // CSS Loading animation
+      this.checkInProcessing = false;
+    }
+    );
   }
 
   viewPoints() {
