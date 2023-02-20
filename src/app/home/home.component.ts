@@ -59,9 +59,6 @@ export class HomeComponent implements OnInit {
         if ((now.getTime() - this.lastCheckedIn.getTime()) > ONE_HOUR) {
           this.eventRef.get().toPromise().then(doc => {
             if (doc.exists) {
-              this.eventName = doc.data().name;
-              this.eventPoints = Number(doc.data().points);
-              this.points += this.eventPoints;
 
               // Event Geolocation
               const event_position = doc.data().position;
@@ -81,8 +78,10 @@ export class HomeComponent implements OnInit {
                 // SUCCESS
                 const user_location = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
                 const distance_in_meters = Math.floor(harvesine(event_coords, user_location));
+                this.eventName = doc.data().name;
                 if (distance_in_meters <= event_radius) {
-
+                  this.eventPoints = Number(doc.data().points);
+                  this.points += this.eventPoints;
                   this.lastCheckedIn = new Date();
                   totalInfo["points"] = this.points;
                   totalInfo["lastCheckedIn"] = this.lastCheckedIn.getTime();
